@@ -6,9 +6,6 @@ import { z } from "zod";
 export const router = express.Router();
 
 // ROUTES
-router.get("/", (_req, res) => {
-  res.send("Hello");
-});
 
 // Reset endpoint for testing only!!
 router.get("/reset", (_req, res) => {
