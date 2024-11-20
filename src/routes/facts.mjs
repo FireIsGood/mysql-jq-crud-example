@@ -1,7 +1,7 @@
 import express from "express";
-import { pool, mysql } from "../database/db-connector.cjs";
+import { pool } from "../database/db-connector.cjs";
+import { queryDb, sqlEscape as esc } from "../database/db-wrapper.mjs";
 import { validateData } from "../middleware/validateData.mjs";
-import { queryDb } from "../database/db-wrapper.mjs";
 import { z } from "zod";
 
 export const router = express.Router();
@@ -43,7 +43,7 @@ router.post("/facts", validateData(factsPostSchema), (req, res) => {
     `
     INSERT INTO Facts (Fact, Truthfulness, Source)
     VALUES
-      (${mysql.escape(fact)}, ${mysql.escape(truthfulness)}, ${mysql.escape(source)});
+      (${esc(fact)}, ${esc(truthfulness)}, ${esc(source)});
     `,
     res
   );
@@ -63,11 +63,11 @@ router.patch("/facts", validateData(factsPatchSchema), (req, res) => {
     `
     UPDATE Facts
     SET
-      Fact = ${mysql.escape(fact)},
-      Truthfulness = ${mysql.escape(truthfulness)},
-      Source = ${mysql.escape(source)}
+      Fact = ${esc(fact)},
+      Truthfulness = ${esc(truthfulness)},
+      Source = ${esc(source)}
     WHERE
-      Id = ${mysql.escape(id)};
+      Id = ${esc(id)};
     `,
     res
   );
@@ -84,7 +84,7 @@ router.delete("/facts", validateData(factsDeleteSchema), (req, res) => {
     `
     DELETE FROM Facts
     WHERE
-      Id = ${mysql.escape(id)};
+      Id = ${esc(id)};
     `,
     res
   );

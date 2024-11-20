@@ -1,3 +1,7 @@
+import { mysql } from "./db-connector.cjs";
+
+export const sqlEscape = mysql.escape;
+
 export function queryDb(pool, queryString, res) {
   pool.query(queryString, (err, results) => {
     if (err) {
