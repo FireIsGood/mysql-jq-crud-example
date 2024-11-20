@@ -7,25 +7,6 @@ export const router = express.Router();
 
 // ROUTES
 
-// Reset endpoint for testing only!!
-router.get("/reset", (_req, res) => {
-  pool.query(`
-    CREATE OR REPLACE TABLE Facts (
-      Id INT NOT NULL AUTO_INCREMENT,
-      Fact TEXT, Truthfulness TEXT,
-      Source TEXT,
-      PRIMARY KEY (Id)
-    );`);
-  pool.query(`
-    INSERT INTO Facts (Fact, Truthfulness, Source)
-    VALUES
-      ("Fish are yellow", "Sometimes", "I thought about it"),
-      ("Candy contains sugar", "No.", "Maybe?"),
-      ("I am hungry", "Yes!!", "Me");
-    `);
-  res.send("Reset the DB");
-});
-
 // Table ID views (for <select> elements)
 router.get("/facts/ids", (_req, res) => {
   pool.query(
