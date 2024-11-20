@@ -1,6 +1,7 @@
 import express from "express";
 import { pool, mysql } from "../database/db-connector.cjs";
 import { validateData } from "../middleware/validateData.mjs";
+import { queryDb } from "../database/db-wrapper.mjs";
 import { z } from "zod";
 
 export const router = express.Router();
@@ -9,27 +10,23 @@ export const router = express.Router();
 
 // Table ID views (for <select> elements)
 router.get("/facts/ids", (_req, res) => {
-  pool.query(
+  queryDb(
+    pool,
     `
     SELECT Id, Fact FROM Facts;
     `,
-    (err, results) => {
-      if (err) res.status(400).send("Could not select!");
-      res.send(JSON.stringify(results));
-    }
+    res
   );
 });
 
 // READ (R in CRUD)
 router.get("/facts", (_req, res) => {
-  pool.query(
+  queryDb(
+    pool,
     `
     SELECT Fact, Truthfulness, Source FROM Facts;
     `,
-    (err, results) => {
-      if (err) res.status(400).send("Could not select!");
-      res.send(JSON.stringify(results));
-    }
+    res
   );
 });
 
@@ -41,12 +38,15 @@ const factsPostSchema = z.object({
 });
 router.post("/facts", validateData(factsPostSchema), (req, res) => {
   const { fact, truthfulness, source } = req.body;
-  pool.query(`
+  queryDb(
+    pool,
+    `
     INSERT INTO Facts (Fact, Truthfulness, Source)
     VALUES
       (${mysql.escape(fact)}, ${mysql.escape(truthfulness)}, ${mysql.escape(source)});
-    `);
-  res.status(201).send("Added!");
+    `,
+    res
+  );
 });
 
 // UPDATE (U in CRUD)
@@ -58,7 +58,9 @@ const factsPatchSchema = z.object({
 });
 router.patch("/facts", validateData(factsPatchSchema), (req, res) => {
   const { id, fact, truthfulness, source } = req.body;
-  pool.query(`
+  queryDb(
+    pool,
+    `
     UPDATE Facts
     SET
       Fact = ${mysql.escape(fact)},
@@ -66,8 +68,9 @@ router.patch("/facts", validateData(factsPatchSchema), (req, res) => {
       Source = ${mysql.escape(source)}
     WHERE
       Id = ${mysql.escape(id)};
-    `);
-  res.status(201).send("Updated!");
+    `,
+    res
+  );
 });
 
 // DELETE (D in CRUD)
@@ -76,10 +79,13 @@ const factsDeleteSchema = z.object({
 });
 router.delete("/facts", validateData(factsDeleteSchema), (req, res) => {
   const { id } = req.body;
-  pool.query(`
+  queryDb(
+    pool,
+    `
     DELETE FROM Facts
     WHERE
       Id = ${mysql.escape(id)};
-    `);
-  res.status(201).send("Deleted!");
+    `,
+    res
+  );
 });
