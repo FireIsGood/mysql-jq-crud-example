@@ -1,3 +1,4 @@
+"use strict";
 import { createFormListener, loadIds, loadTable } from "./util.js";
 
 $(async function () {

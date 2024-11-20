@@ -15,7 +15,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "forever": "^4.0.3",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
