@@ -1,0 +1,45 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr); /* Evil grid fix */
+}
+
+/* Fix scrollbar pop in */
+@media (min-width: 800px) {
+  :root {
+    scrollbar-gutter: stable both-edges;
+  }
+}
+
+footer {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+  }
+}
+
+details {
+  --pico-border-color: var(--pico-secondary);
+  border-radius: var(--pico-border-radius);
+  border: var(--pico-border-width) solid var(--pico-border-color);
+}
+
+details > *:not(summary) {
+  padding-inline: var(--pico-form-element-spacing-horizontal);
+}
+
+summary {
+  padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
+}
+
+.container {
+  max-width: 960px;
+}
