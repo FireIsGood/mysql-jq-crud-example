@@ -1,3 +1,4 @@
+"use strict";
 // Returns a function that validates a schema over the given data
 // Schema is from Zod
 export function validateData(schema) {

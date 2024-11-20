@@ -1,3 +1,4 @@
+"use strict";
 import { mysql } from "./db-connector.cjs";
 
 export const sqlEscape = mysql.escape;

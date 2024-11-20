@@ -1,3 +1,4 @@
+"use strict";
 import express from "express";
 import { pool } from "../database/db-connector.cjs";
 import { queryDb, sqlEscape as esc } from "../database/db-wrapper.mjs";
